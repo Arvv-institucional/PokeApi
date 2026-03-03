@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+  const [results, setresults]= useState<any[]> ([]);
+
   useEffect(() => {
     console.log("Entre entre en pantalla");
     getPokemons();
@@ -24,6 +17,7 @@ export default function Index() {
     console.log(response)
     const data= await response.json();
     console.log(data.results); 
+    setresults(data.results);
   };
 
 
@@ -31,7 +25,9 @@ export default function Index() {
   return ( 
     
     <View>
-      <Text>Fabian de Lira.</Text>
+      {results.map((item)=>{
+        return <Text key={item.name}> {item.name} </Text>
+      })}
     </View>
   );
 }
