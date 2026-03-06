@@ -1,33 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+
+import React, { useEffect, useState } from "react"
+import { ScrollView, Text, View } from "react-native"
+import PokemonCard from "@/components/PokemonCard"
+
+interface Pokemon {
+  id: number
+  name: string
+  sprites: {
+    front_default: string
+  };
+}
+
+interface PokemonListItem {
+  name: string
+  url: string
+}
 
 export default function Index() {
-  const [results, setresults]= useState<any[]> ([]);
+  const[pokemonData, setPokemonData] = useState<Pokemon[]>([])
+  const pokemon_URL = 'https://pokeapi.co/api/v2/pokemon?limit=20'
+  const fetchPokemon = async () => {
+    try {
+
+      const response = await fetch(`${pokemon_URL}`)
+      const data = await response.json()
+      const pokemons: Pokemon[] = await Promise.all(
+        data.results.map((p: PokemonListItem) => fetch(p.url).then(res => res.json()))
+      )
+      setPokemonData(pokemons)
+
+    } catch (error) {
+
+      console.error('El fetch no se a podido completar')
+
+    }
+  }
 
   useEffect(() => {
-    console.log("Entre entre en pantalla");
-    getPokemons();
-  }, []);
-
-  const getPokemons = async () => {
-    const URL= "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-    const response = await fetch(URL, {
-      method: "GET"
-    });
-    console.log(response)
-    const data= await response.json();
-    console.log(data.results); 
-    setresults(data.results);
-  };
-
-
-
+    fetchPokemon()
+  }, [])
   return ( 
-    
-    <View>
-      {results.map((item)=>{
-        return <Text key={item.name}> {item.name} </Text>
-      })}
-    </View>
+
+    <ScrollView>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', padding: 10 }}>
+        {pokemonData.map((pokemon,) => (
+          <PokemonCard key={pokemon.id} item={pokemon}/>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
