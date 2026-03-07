@@ -19,7 +19,7 @@ interface PokemonListItem {
 export default function Index() {
   const[pokemonFinder, setPokemonFinder] = useState<String>("")
   const[pokemonData, setPokemonData] = useState<Pokemon[]>([])
-  const pokemon_URL = 'https://pokeapi.co/api/v2/pokemon?limit=150'
+  const pokemon_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151'
   const fetchPokemon = async () => {
     try {
 
