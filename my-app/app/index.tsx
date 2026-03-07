@@ -17,7 +17,7 @@ interface PokemonListItem {
 }
 
 export default function Index() {
-  const[pokemonFinder, setPokemonFinder] = useState<String>("")
+  const[pokemonFinder, setPokemonFinder] = useState<string>("")
   const[pokemonData, setPokemonData] = useState<Pokemon[]>([])
   const pokemon_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151'
   const fetchPokemon = async () => {
@@ -45,7 +45,10 @@ export default function Index() {
     fetchPokemon()
   }, [pokemonFinder])
 
-  const pokemonsfiltrados = pokemonData.filter(pokemon => pokemon.name.toLowerCase().includes(pokemonFinder.toLowerCase()))
+  const pokemonsfiltrados = pokemonData.filter(pokemon => 
+  pokemon.name.toLowerCase().includes(pokemonFinder.toLowerCase())
+  ||
+  pokemon.id.toString().includes(pokemonFinder))
   
 
   useEffect
@@ -71,5 +74,8 @@ const styles = StyleSheet.create ({
   cuadroText : {
     backgroundColor : "white",
     borderRadius : 20,
-    padding : 10}
-  })
+    padding : 10,
+    marginHorizontal : 20,
+    marginTop : 10
+  }
+})
