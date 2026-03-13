@@ -1,4 +1,5 @@
 import {View, Text, Image, StyleSheet, Pressable} from "react-native";
+import { router } from "expo-router";
 
 export default function PokemonCard ({item} : {item: any}) {
   if (!item) {
@@ -9,7 +10,7 @@ export default function PokemonCard ({item} : {item: any}) {
   
   } else {
     return (
-      <Pressable style={styles.card}>
+      <Pressable onPress={()=>router.push(`/pokemon/${item.name}`)} style={styles.card}>
         <View style={styles.imageContainer}>
           <Image 
             source={{uri:item.sprites.front_default}} 

@@ -7,7 +7,7 @@ export default function PokemonDynamicPage() {
   return(
     <View>
       <Text>
-        Pokemon dinamic page
+        Pagina de {params.item}
       </Text>
     </View>
   )
