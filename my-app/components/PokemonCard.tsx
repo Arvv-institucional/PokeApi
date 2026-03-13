@@ -1,4 +1,4 @@
-import {View, Text, Image, StyleSheet} from "react-native";
+import {View, Text, Image, StyleSheet, Pressable} from "react-native";
 
 export default function PokemonCard ({item} : {item: any}) {
   if (!item) {
@@ -9,7 +9,7 @@ export default function PokemonCard ({item} : {item: any}) {
   
   } else {
     return (
-      <View style={styles.card}>
+      <Pressable style={styles.card}>
         <View style={styles.imageContainer}>
           <Image 
             source={{uri:item.sprites.front_default}} 
@@ -24,7 +24,7 @@ export default function PokemonCard ({item} : {item: any}) {
             ID: {item.id}
           </Text>
         </View>
-      </View>
+      </Pressable>
     )
 }
 }
