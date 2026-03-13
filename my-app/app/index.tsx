@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react"
-import { ScrollView, Text, View, TextInput, StyleSheet } from "react-native"
+import { router } from "expo-router"
+import { ScrollView, Button, View, TextInput, StyleSheet, Text } from "react-native"
 import PokemonCard from "@/components/PokemonCard"
 
 interface Pokemon {
@@ -53,6 +54,7 @@ export default function Index() {
 
     <ScrollView>
       <View>
+      <Button title="Nueva pagina" onPress={()=>router.push("/new_page")}/>
         <TextInput style={styles.cuadroText}
         placeholder="Buscar pokemon por nombre"
         onChangeText={(input) => setPokemonFinder(input)}>
