@@ -9,11 +9,12 @@ export default function PokemonCard ({item} : {item: any}) {
       </Text>)
   
   } else {
+    const id = item.url.split("/").filter(Boolean).at(-1)
     return (
-      <Pressable onPress={()=>router.push(`/pokemon/${item.name}`)} style={styles.card}>
+      <Pressable onPress={()=>router.push(`/pokemon/${id}`)} style={styles.card}>
         <View style={styles.imageContainer}>
           <Image 
-            source={{uri:item.sprites.front_default}} 
+            source={{uri:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}} 
             style={styles.image} 
           />
         </View>
@@ -22,7 +23,7 @@ export default function PokemonCard ({item} : {item: any}) {
             {item.name}
           </Text>
           <Text style={styles.id}>
-            ID: {item.id}
+            ID: {id}
           </Text>
         </View>
       </Pressable>

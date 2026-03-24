@@ -4,69 +4,42 @@ import { router } from "expo-router"
 import { ScrollView, Button, View, TextInput, StyleSheet, Text } from "react-native"
 import PokemonCard from "@/components/PokemonCard"
 
-interface Pokemon {
-  id: number
-  name: string
-  sprites: {
-    front_default: string
-  };
-}
-
-interface PokemonListItem {
-  name: string
-  url: string
+type Pokemon = {
+  name: string;
+  url: string;
 }
 
 export default function Index() {
-  const[pokemonFinder, setPokemonFinder] = useState<string>("")
+  const[search, setSearch] = useState<string>("")
   const[pokemonData, setPokemonData] = useState<Pokemon[]>([])
   const pokemon_URL = 'https://pokeapi.co/api/v2/pokemon?limit=151'
   const fetchPokemon = async () => {
     try {
-
       const response = await fetch(`${pokemon_URL}`)
       const data = await response.json()
-      const pokemons: Pokemon[] = await Promise.all(
-        data.results.map((p: PokemonListItem) => fetch(p.url).then(res => res.json()))
-      )
-      setPokemonData(pokemons)
-
+      setPokemonData(data.results)
     } catch (error) {
-
       console.error('El fetch no se a podido completar')
-
     }
   }
 
   useEffect(() => {
     fetchPokemon()
   }, [])
-
-  useEffect(() => {
-    fetchPokemon()
-  }, [pokemonFinder])
-
-  const pokemonsfiltrados = pokemonData.filter(pokemon => 
-  pokemon.name.toLowerCase().includes(pokemonFinder.toLowerCase())
-  ||
-  pokemon.id.toString().includes(pokemonFinder))
   
+  const filterPokemon = pokemonData.filter((pokemon) => pokemon.name.toLowerCase().includes(search.toLowerCase()))
 
-  useEffect
   return ( 
-
     <ScrollView>
       <View>
       <Button title="Nueva pagina" onPress={()=>router.push("/new_page")}/>
         <TextInput style={styles.cuadroText}
         placeholder="Buscar pokemon por nombre"
-        onChangeText={(input) => setPokemonFinder(input)}>
+        onChangeText={(input) => setSearch(input)}>
         </TextInput>
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', padding: 10 }}>
-        {pokemonsfiltrados.map((pokemon,) => (
-          <PokemonCard key={pokemon.id} item={pokemon}/>
-        ))}
+        {filterPokemon.map((pokemon) => (<PokemonCard key={pokemon.name} item={pokemon}/>))}
       </View>
     </ScrollView>
   );
